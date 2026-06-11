@@ -18,7 +18,7 @@ import {
   Star, MessageSquare, Mail, Phone, Building, 
   Sparkles, Send, ShieldCheck, Heart, ArrowRight, CheckCircle2, 
   Sun, Moon, ShieldAlert, Award, Target, HelpCircle, ChevronRight,
-  Settings, LogOut, Users, Briefcase, CreditCard
+  Settings, LogOut, Users, Briefcase, CreditCard, Menu, X
 } from "lucide-react";
 import logo from "@/assets/logo.jpg";
 import paymentsMockup from "@/assets/payments_mockup.png";
@@ -355,7 +355,7 @@ export const ContainerScroll = ({
 
   return (
     <div
-      className="h-[52rem] md:h-[72rem] flex items-center justify-center relative p-2 md:p-10"
+      className="h-[40rem] sm:h-[55rem] md:h-[72rem] lg:h-[78rem] flex items-center justify-center relative p-2 md:p-10"
       ref={containerRef}
     >
       <div
@@ -379,7 +379,7 @@ export const HeaderScroll = ({ translate, titleComponent }: any) => {
       style={{
         translateY: translate,
       }}
-      className="div max-w-5xl mx-auto text-center"
+      className="div max-w-5xl lg:max-w-6xl xl:max-w-7xl mx-auto text-center"
     >
       {titleComponent}
     </motion.div>
@@ -404,7 +404,7 @@ export const CardScroll = ({
         boxShadow:
           "0 0 #0000004d, 0 9px 20px #0000004a, 0 37px 37px #00000042, 0 84px 50px #00000026, 0 149px 60px #0000000a, 0 233px 65px #00000003",
       }}
-      className="max-w-5xl mt-12 sm:mt-20 mx-auto h-[30rem] md:h-[40rem] w-full border-4 border-[#6C6C6C] p-2 md:p-6 bg-[#222222] rounded-[30px] shadow-2xl"
+      className="max-w-5xl lg:max-w-6xl xl:max-w-[1200px] mt-6 sm:mt-12 md:mt-20 mx-auto h-[18rem] sm:h-[28rem] md:h-[40rem] lg:h-[45rem] w-full border-2 md:border-4 border-[#6C6C6C] p-1.5 md:p-6 bg-[#222222] rounded-[20px] md:rounded-[30px] shadow-2xl"
     >
       <div className=" h-full w-full  overflow-hidden rounded-2xl bg-gray-100 dark:bg-zinc-900 md:rounded-2xl md:p-4 ">
         {children}
@@ -428,6 +428,7 @@ export default function Home() {
     return saved ? saved === "dark" : true;
   });
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const logoutMutation = useLogout();
 
   const handleLogout = () => {
@@ -585,7 +586,7 @@ export default function Home() {
 
       {/* 1. Header Navigation Bar */}
       <header className="sticky top-0 z-50 w-full border-b border-border bg-background/85 backdrop-blur-md px-4 sm:px-6 lg:px-8 shadow-xs">
-        <div className="max-w-7xl mx-auto flex h-16 items-center justify-between">
+        <div className="max-w-7xl 2xl:max-w-[1600px] mx-auto flex h-16 items-center justify-between">
           <div className="flex items-center gap-3 cursor-pointer select-none" onClick={() => scrollTo("hero")}>
             <img src={logo} alt="SBS Logo" className="w-10 h-10 rounded-full border-2 border-primary object-cover shadow-sm" />
             <div className="hidden sm:block">
@@ -605,6 +606,15 @@ export default function Home() {
 
           {/* Action Buttons */}
           <div className="flex items-center gap-2.5 relative">
+            {/* Hamburger Icon for Mobile */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-1.5 rounded-lg hover:bg-muted text-foreground cursor-pointer flex items-center justify-center"
+              aria-label="Toggle Menu"
+            >
+              <Menu className="w-5 h-5" />
+            </button>
+
             {/* Theme Toggle Button */}
             <Button 
               variant="ghost" 
@@ -674,17 +684,107 @@ export default function Home() {
               </div>
             ) : (
               <Link href="/login">
-                <Button variant="outline" className="h-9 text-xs sm:text-sm border-primary/20 hover:bg-primary/5 text-primary font-bold">
+                <Button variant="outline" className="hidden sm:inline-flex h-9 text-xs sm:text-sm border-primary/20 hover:bg-primary/5 text-primary font-bold">
                   Login
                 </Button>
               </Link>
             )}
-            <Button onClick={() => setContactOpen(true)} className="bg-primary hover:bg-primary/90 text-primary-foreground h-9 text-xs sm:text-sm shrink-0">
+            <Button onClick={() => setContactOpen(true)} className="hidden md:inline-flex bg-primary hover:bg-primary/90 text-primary-foreground h-9 text-xs sm:text-sm shrink-0">
               Get in Touch
             </Button>
           </div>
         </div>
       </header>
+
+      {/* Mobile Navigation Drawer */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setMobileMenuOpen(false)}
+              className="fixed inset-0 z-40 bg-black/60 backdrop-blur-xs md:hidden"
+            />
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", bounce: 0, duration: 0.3 }}
+              className="fixed right-0 top-0 bottom-0 z-50 w-72 bg-background border-l border-border p-6 shadow-2xl flex flex-col justify-between md:hidden"
+            >
+              <div className="space-y-6">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <img src={logo} alt="Logo" className="w-8 h-8 rounded-full border-2 border-primary object-cover" />
+                    <span className="font-serif font-black text-xs text-foreground truncate max-w-[140px]">Strategic Brand</span>
+                  </div>
+                  <button onClick={() => setMobileMenuOpen(false)} className="p-1 rounded-lg hover:bg-muted text-foreground cursor-pointer">
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+
+                <nav className="flex flex-col gap-4 text-base font-semibold text-muted-foreground">
+                  <button 
+                    onClick={() => { setMobileMenuOpen(false); scrollTo("strengths"); }} 
+                    className="flex items-center gap-3 py-2 text-left hover:text-primary transition-colors cursor-pointer"
+                  >
+                    <Target className="w-4 h-4" /> Strengths
+                  </button>
+                  <button 
+                    onClick={() => { setMobileMenuOpen(false); scrollTo("services"); }} 
+                    className="flex items-center gap-3 py-2 text-left hover:text-primary transition-colors cursor-pointer"
+                  >
+                    <Sparkles className="w-4 h-4" /> Services
+                  </button>
+                  <button 
+                    onClick={() => { setMobileMenuOpen(false); scrollTo("projects"); }} 
+                    className="flex items-center gap-3 py-2 text-left hover:text-primary transition-colors cursor-pointer"
+                  >
+                    <Briefcase className="w-4 h-4" /> Projects
+                  </button>
+                  <button 
+                    onClick={() => { setMobileMenuOpen(false); scrollTo("feedbacks"); }} 
+                    className="flex items-center gap-3 py-2 text-left hover:text-primary transition-colors cursor-pointer"
+                  >
+                    <Star className="w-4 h-4" /> Reviews
+                  </button>
+                  <Link 
+                    href="/showcase" 
+                    onClick={() => setMobileMenuOpen(false)} 
+                    className="flex items-center gap-3 py-2 hover:text-primary transition-colors cursor-pointer"
+                  >
+                    <Globe className="w-4 h-4" /> Showcase
+                  </Link>
+                </nav>
+              </div>
+
+              <div className="space-y-3 pt-6 border-t border-border">
+                {user ? (
+                  <Link href={user.role === "admin" ? "/admin" : "/client"} onClick={() => setMobileMenuOpen(false)}>
+                    <Button className="w-full justify-start gap-2 h-11 bg-primary text-primary-foreground font-semibold">
+                      <LayoutDashboard className="w-4 h-4" /> Go to Dashboard
+                    </Button>
+                  </Link>
+                ) : (
+                  <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
+                    <Button variant="outline" className="w-full h-11 border-primary/20 hover:bg-primary/5 text-primary font-bold">
+                      Login Portal
+                    </Button>
+                  </Link>
+                )}
+                <Button 
+                  onClick={() => { setMobileMenuOpen(false); setContactOpen(true); }} 
+                  className="w-full h-11 bg-foreground text-background hover:bg-foreground/90 dark:bg-white dark:text-black font-semibold"
+                >
+                  Get in Touch
+                </Button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
 
       {/* 2. Redesigned Visual Hero Section (Visor Glow & Coordinates) */}
       <section id="hero" className="relative overflow-hidden border-b bg-gradient-to-br from-primary/[0.03] via-transparent to-transparent">
@@ -704,7 +804,7 @@ export default function Home() {
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-[10px] sm:text-xs text-primary font-bold tracking-widest uppercase font-mono select-none">
                 [ ✦ INTRODUCING ACTIVE CLIENT PORTALS ✦ ]
               </div>
-              <h1 className="text-4xl sm:text-6xl md:text-7xl font-serif font-black tracking-tight leading-none text-foreground">
+              <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-serif font-black tracking-tight leading-none text-foreground">
                 Everything you need to <br className="hidden md:inline" />
                 build <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-indigo-500 to-violet-500">authoritative apps.</span>
               </h1>
