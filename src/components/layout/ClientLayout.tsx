@@ -1,7 +1,7 @@
 import { ReactNode, useState, useRef, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { LayoutDashboard, Briefcase, LogOut, Menu, X, User, Bell, CreditCard, MessageSquare, QrCode, Sun, Moon } from "lucide-react";
-import logo from "@/assets/logo.jpg";
+import SBLogo from "@/components/SBLogo";
 import { useLogout, useAuthUser } from "@/hooks/useAuth";
 import { apiFetch } from "@/lib/api";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -94,11 +94,15 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
   const SidebarContent = ({ isMobile = false }: { isMobile?: boolean }) => (
     <>
       <div className="p-4 lg:p-6 flex items-center gap-3 shrink-0 border-b border-sidebar-accent/20">
-        <img
-          src={brandLogoUrl ? (brandLogoUrl.startsWith("http") ? brandLogoUrl : `${(window as any).BACKEND_URL}${brandLogoUrl}`) : logo}
-          alt="SBS"
-          className="w-9 h-9 rounded-full border-2 border-primary shrink-0 object-cover"
-        />
+        {brandLogoUrl ? (
+          <img
+            src={brandLogoUrl.startsWith("http") ? brandLogoUrl : `${(window as any).BACKEND_URL}${brandLogoUrl}`}
+            alt="SBS"
+            className="w-9 h-9 rounded-full border-2 border-primary shrink-0 object-cover"
+          />
+        ) : (
+          <SBLogo size={36} rounded="xl" />
+        )}
         <div className="min-w-0">
           <span className="font-serif font-bold text-sidebar-foreground text-sm leading-tight block">{brandLogoText}</span>
           <span className="text-[10px] text-sidebar-foreground/60 block">Client Portal</span>

@@ -5,7 +5,7 @@ import {
   LogOut, Menu, X, Bell, Search, ChevronRight, Key, UserCheck, MessageSquare,
   CalendarDays, FileText, BarChart3, Receipt, Star, Sun, Moon
 } from "lucide-react";
-import logo from "@/assets/logo.jpg";
+import SBLogo from "@/components/SBLogo";
 import { useNotifications } from "@/hooks/useNotifications";
 import { useLogout, useAuthUser } from "@/hooks/useAuth";
 import { apiFetch } from "@/lib/api";
@@ -104,11 +104,15 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     return (
     <>
       <div className="p-4 lg:p-5 flex items-center gap-3 shrink-0 border-b border-sidebar-accent/20">
-        <img
-          src={sidebarLogoUrl ? (sidebarLogoUrl.startsWith("http") ? sidebarLogoUrl : `${(window as any).BACKEND_URL}${sidebarLogoUrl}`) : logo}
-          alt="SBS"
-          className="w-9 h-9 rounded-full border-2 border-primary shrink-0 object-cover"
-        />
+        {sidebarLogoUrl ? (
+          <img
+            src={sidebarLogoUrl.startsWith("http") ? sidebarLogoUrl : `${(window as any).BACKEND_URL}${sidebarLogoUrl}`}
+            alt="SBS"
+            className="w-9 h-9 rounded-full border-2 border-primary shrink-0 object-cover"
+          />
+        ) : (
+          <SBLogo size={36} rounded="xl" />
+        )}
         <div className="min-w-0">
           <span className="font-serif font-bold text-sidebar-foreground text-sm leading-tight block">{sidebarLogoText}</span>
           <span className="text-[10px] text-sidebar-foreground/50 block">Admin Dashboard</span>

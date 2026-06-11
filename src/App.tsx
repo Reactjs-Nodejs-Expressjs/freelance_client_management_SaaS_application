@@ -35,7 +35,7 @@ import FeedbackForm from "./pages/client/FeedbackForm";
 import AdminFeedback from "./pages/admin/Feedback";
 import Home from "./pages/Home";
 import Showcase from "./pages/Showcase";
-import logo from "@/assets/logo.jpg";
+import SBLogo from "@/components/SBLogo";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -53,11 +53,7 @@ function LoadingScreen() {
         {/* Spinning border */}
         <div className="w-24 h-24 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
         {/* Logo in center */}
-        <img
-          src={logo}
-          alt="SBS"
-          className="w-16 h-16 rounded-full absolute object-cover border-2 border-background animate-pulse"
-        />
+        <SBLogo size={60} rounded="2xl" className="absolute animate-pulse" />
       </div>
       <div className="flex flex-col items-center space-y-1 text-center">
         <span className="font-serif font-bold text-lg text-foreground tracking-wide">Strategic Brand Solutions</span>

@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import logo from "@/assets/logo.jpg";
+import SBLogo from "@/components/SBLogo";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -39,7 +39,7 @@ export default function Login() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-sidebar via-background to-background p-4">
       <div className="w-full max-w-sm sm:max-w-md">
         <div className="flex flex-col items-center mb-8">
-          <img src={logo} alt="SBS" className="w-16 h-16 rounded-full border-4 border-primary shadow-lg mb-4 object-cover" />
+          <SBLogo size={64} rounded="2xl" className="mb-4" />
           <h1 className="text-2xl sm:text-3xl font-serif font-bold text-foreground tracking-tight">Strategic Brand Solutions</h1>
           <p className="text-muted-foreground text-sm mt-2">Sign in to your dashboard</p>
         </div>
