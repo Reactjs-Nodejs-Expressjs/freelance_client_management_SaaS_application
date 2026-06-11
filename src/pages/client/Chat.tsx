@@ -239,7 +239,7 @@ export default function ClientChat() {
         <div className="relative shrink-0">
           {brandingData?.logoUrl ? (
             <img
-              src={brandingData.logoUrl.startsWith('http') ? brandingData.logoUrl : `http://localhost:5000${brandingData.logoUrl}`}
+              src={brandingData.logoUrl.startsWith('http') ? brandingData.logoUrl : `${(window as any).BACKEND_URL}${brandingData.logoUrl}`}
               alt={brandingData.logoText || "Strategic Brand Solutions"}
               className="w-10 h-10 rounded-full border border-border shrink-0 object-cover"
             />
@@ -301,7 +301,7 @@ export default function ClientChat() {
                 {!isOwnMessage && (
                   brandingData?.logoUrl ? (
                     <img
-                      src={brandingData.logoUrl.startsWith('http') ? brandingData.logoUrl : `http://localhost:5000${brandingData.logoUrl}`}
+                      src={brandingData.logoUrl.startsWith('http') ? brandingData.logoUrl : `${(window as any).BACKEND_URL}${brandingData.logoUrl}`}
                       alt={brandingData.logoText || "Strategic Brand Solutions"}
                       className="w-7 h-7 rounded-full object-cover border border-border shrink-0 mb-4"
                     />
@@ -346,10 +346,10 @@ export default function ClientChat() {
                       <>
                         {msg.imageUrl && (
                           <img
-                            src={msg.imageUrl.startsWith('http') ? msg.imageUrl : `http://localhost:5000${msg.imageUrl}`}
+                            src={msg.imageUrl.startsWith('http') ? msg.imageUrl : `${(window as any).BACKEND_URL}${msg.imageUrl}`}
                             alt="Shared"
                             className="rounded-lg max-w-[200px] max-h-[180px] object-cover mb-2 cursor-pointer"
-                            onClick={() => window.open(msg.imageUrl!.startsWith('http') ? msg.imageUrl! : `http://localhost:5000${msg.imageUrl}`, "_blank")}
+                            onClick={() => window.open(msg.imageUrl!.startsWith('http') ? msg.imageUrl! : `${(window as any).BACKEND_URL}${msg.imageUrl}`, "_blank")}
                           />
                         )}
                         {msg.text && renderMessageText(msg.text, isOwnMessage)}

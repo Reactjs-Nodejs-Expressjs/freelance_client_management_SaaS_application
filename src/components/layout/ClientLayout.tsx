@@ -99,7 +99,7 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
     <>
       <div className="p-4 lg:p-6 flex items-center gap-3 shrink-0 border-b border-sidebar-accent/20">
         <img
-          src={brandLogoUrl ? (brandLogoUrl.startsWith("http") ? brandLogoUrl : `http://localhost:5000${brandLogoUrl}`) : logo}
+          src={brandLogoUrl ? (brandLogoUrl.startsWith("http") ? brandLogoUrl : `${(window as any).BACKEND_URL}${brandLogoUrl}`) : logo}
           alt="SBS"
           className="w-9 h-9 rounded-full border-2 border-primary shrink-0 object-cover"
         />
@@ -336,7 +336,7 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
               >
                 {user?.photoUrl ? (
                   <img
-                    src={user.photoUrl.startsWith('http') ? user.photoUrl : `http://localhost:5000${user.photoUrl}`}
+                    src={user.photoUrl.startsWith('http') ? user.photoUrl : `${(window as any).BACKEND_URL}${user.photoUrl}`}
                     alt={user.name || "Client"}
                     className="w-8 h-8 rounded-full object-cover border border-border shrink-0"
                   />

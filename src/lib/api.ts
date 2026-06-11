@@ -1,4 +1,5 @@
-const BASE = "/api";
+export const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" ? (window as any).BACKEND_URL : "https://freelance-client-management-saas.onrender.com");
+const BASE = import.meta.env.VITE_API_URL || (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" ? "/api" : "https://freelance-client-management-saas.onrender.com/api");
 
 export function getToken(): string | null {
   return localStorage.getItem("sbs_token");

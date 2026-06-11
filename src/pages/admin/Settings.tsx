@@ -141,7 +141,7 @@ export default function Settings() {
             <p className="text-[10px] uppercase tracking-widest text-muted-foreground/60 mb-3 font-semibold">Sidebar Preview</p>
             <div className="flex items-center gap-3">
               <img
-                src={currentLogoUrl ? (currentLogoUrl.startsWith("http") ? currentLogoUrl : `http://localhost:5000${currentLogoUrl}`) : defaultLogo}
+                src={currentLogoUrl ? (currentLogoUrl.startsWith("http") ? currentLogoUrl : `${(window as any).BACKEND_URL}${currentLogoUrl}`) : defaultLogo}
                 alt="Logo"
                 className="w-9 h-9 rounded-full border-2 border-primary shrink-0 object-cover"
               />
@@ -160,7 +160,7 @@ export default function Settings() {
             <div className="flex items-center gap-4">
               <div className="relative group shrink-0">
                 <img
-                  src={currentLogoUrl ? (currentLogoUrl.startsWith("http") ? currentLogoUrl : `http://localhost:5000${currentLogoUrl}`) : defaultLogo}
+                  src={currentLogoUrl ? (currentLogoUrl.startsWith("http") ? currentLogoUrl : `${(window as any).BACKEND_URL}${currentLogoUrl}`) : defaultLogo}
                   alt="Current Logo"
                   className="w-16 h-16 rounded-xl object-cover border-2 border-primary/20 shadow-md"
                 />

@@ -340,7 +340,7 @@ export default function AdminChat() {
                   <div className="relative shrink-0">
                     {client.photoUrl ? (
                       <img
-                        src={client.photoUrl.startsWith('http') ? client.photoUrl : `http://localhost:5000${client.photoUrl}`}
+                        src={client.photoUrl.startsWith('http') ? client.photoUrl : `${(window as any).BACKEND_URL}${client.photoUrl}`}
                         alt={client.name}
                         className="w-9 h-9 rounded-full object-cover border border-sidebar-accent/50 shrink-0"
                       />
@@ -411,7 +411,7 @@ export default function AdminChat() {
             <div className="relative shrink-0">
               {selectedClient.photoUrl ? (
                 <img
-                  src={selectedClient.photoUrl.startsWith('http') ? selectedClient.photoUrl : `http://localhost:5000${selectedClient.photoUrl}`}
+                  src={selectedClient.photoUrl.startsWith('http') ? selectedClient.photoUrl : `${(window as any).BACKEND_URL}${selectedClient.photoUrl}`}
                   alt={selectedClient.name}
                   className="w-9.5 h-9.5 rounded-full object-cover border border-slate-200 dark:border-zinc-800 shrink-0"
                 />

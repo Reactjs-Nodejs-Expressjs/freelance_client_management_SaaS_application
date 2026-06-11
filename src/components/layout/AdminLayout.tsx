@@ -104,7 +104,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     <>
       <div className="p-4 lg:p-5 flex items-center gap-3 shrink-0 border-b border-sidebar-accent/20">
         <img
-          src={sidebarLogoUrl ? (sidebarLogoUrl.startsWith("http") ? sidebarLogoUrl : `http://localhost:5000${sidebarLogoUrl}`) : logo}
+          src={sidebarLogoUrl ? (sidebarLogoUrl.startsWith("http") ? sidebarLogoUrl : `${(window as any).BACKEND_URL}${sidebarLogoUrl}`) : logo}
           alt="SBS"
           className="w-9 h-9 rounded-full border-2 border-primary shrink-0 object-cover"
         />
@@ -129,7 +129,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
         <div className="flex items-center gap-2.5 px-3 py-2.5 mb-2 rounded-lg bg-sidebar-accent/20">
           {user?.photoUrl ? (
             <img
-              src={user.photoUrl.startsWith('http') ? user.photoUrl : `http://localhost:5000${user.photoUrl}`}
+              src={user.photoUrl.startsWith('http') ? user.photoUrl : `${(window as any).BACKEND_URL}${user.photoUrl}`}
               alt={user.name}
               className="w-8 h-8 rounded-full object-cover border border-primary/30 shrink-0"
             />

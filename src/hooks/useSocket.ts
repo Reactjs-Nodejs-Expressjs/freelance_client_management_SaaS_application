@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { io, Socket } from "socket.io-client";
-import { getToken } from "@/lib/api";
+import { getToken, BACKEND_URL } from "@/lib/api";
 
-const SOCKET_URL = "http://localhost:5000";
+const SOCKET_URL = BACKEND_URL;
 
 let socketInstance: Socket | null = null;
 

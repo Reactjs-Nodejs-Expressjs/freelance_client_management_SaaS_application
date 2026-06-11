@@ -110,7 +110,7 @@ export default function ClientDetail() {
             <div className="flex flex-col sm:flex-row gap-5 items-center sm:items-start flex-1 min-w-0">
               {client.photoUrl ? (
                 <img
-                  src={client.photoUrl.startsWith('http') ? client.photoUrl : `http://localhost:5000${client.photoUrl}`}
+                  src={client.photoUrl.startsWith('http') ? client.photoUrl : `${(window as any).BACKEND_URL}${client.photoUrl}`}
                   alt={client.name}
                   className="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover border-4 border-primary/20 shrink-0 shadow-sm"
                 />

@@ -168,7 +168,7 @@ export default function ClientPayments() {
   // Helper to get full image URL
   const getImageUrl = (url: string | null) => {
     if (!url) return null;
-    return url.startsWith('http') ? url : `http://localhost:5000${url}`;
+    return url.startsWith('http') ? url : `${(window as any).BACKEND_URL}${url}`;
   };
 
   const fetchAsDataUrl = async (url: string): Promise<string> => {

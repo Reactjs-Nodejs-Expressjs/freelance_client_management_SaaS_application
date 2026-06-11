@@ -518,7 +518,7 @@ export default function ClientProjectDetail() {
                                 size="sm"
                                 variant="link"
                                 className="h-auto p-0 text-[10px] text-primary hover:underline flex items-center gap-0.5"
-                                onClick={() => window.open(`http://localhost:5000/uploads/invoices/invoice-${payment.id}.html`, "_blank")}
+                                onClick={() => window.open(`${(window as any).BACKEND_URL}/uploads/invoices/invoice-${payment.id}.html`, "_blank")}
                               >
                                 <FileText className="w-2.5 h-2.5" /> Invoice
                               </Button>

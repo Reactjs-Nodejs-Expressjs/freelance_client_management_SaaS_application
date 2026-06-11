@@ -121,7 +121,7 @@ export default function Invoices() {
   };
 
   const handlePrintInvoice = (paymentId: string) => {
-    const url = `http://localhost:5000/uploads/invoices/invoice-${paymentId}.html`;
+    const url = `${(window as any).BACKEND_URL}/uploads/invoices/invoice-${paymentId}.html`;
     window.open(url, "_blank");
   };
 

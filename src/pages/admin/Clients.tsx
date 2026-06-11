@@ -537,7 +537,7 @@ export default function Clients() {
                       <Link href={`/clients/${client.id}`} className="font-medium text-foreground hover:text-primary transition-colors flex items-center gap-2">
                         {client.photoUrl ? (
                           <img
-                            src={client.photoUrl.startsWith('http') ? client.photoUrl : `http://localhost:5000${client.photoUrl}`}
+                            src={client.photoUrl.startsWith('http') ? client.photoUrl : `${(window as any).BACKEND_URL}${client.photoUrl}`}
                             alt={client.name}
                             className="w-6 h-6 rounded-full object-cover border border-border shrink-0"
                           />
