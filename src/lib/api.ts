@@ -1,5 +1,13 @@
-export const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" ? (window as any).BACKEND_URL : "https://freelance-client-management-saas.onrender.com");
-const BASE = import.meta.env.VITE_API_URL || (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" ? "/api" : "https://freelance-client-management-saas.onrender.com/api");
+let rawBackend = import.meta.env.VITE_BACKEND_URL || (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" ? "http://localhost:5000" : "https://freelance-client-management-saas.onrender.com");
+if (rawBackend.endsWith("/")) rawBackend = rawBackend.slice(0, -1);
+export const BACKEND_URL = rawBackend;
+
+let rawBase = import.meta.env.VITE_API_URL || (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" ? "/api" : "https://freelance-client-management-saas.onrender.com/api");
+if (rawBase.endsWith("/")) rawBase = rawBase.slice(0, -1);
+if (window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1" && !rawBase.endsWith("/api")) {
+  rawBase += "/api";
+}
+const BASE = rawBase;
 
 export function getToken(): string | null {
   return localStorage.getItem("sbs_token");
