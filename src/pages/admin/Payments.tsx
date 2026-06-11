@@ -253,13 +253,13 @@ export default function Payments() {
 
       {/* QR Code Modal */}
       <Dialog open={!!qrToken} onOpenChange={(open) => !open && setQrToken(null)}>
-        <DialogContent className="sm:max-w-sm text-center">
+        <DialogContent className="w-[min(384px,calc(100vw-2rem))] text-center">
           <DialogHeader><DialogTitle className="text-center">Payment QR Code</DialogTitle></DialogHeader>
           <div className="py-6 flex flex-col items-center gap-4">
             <p className="text-sm text-muted-foreground">Share this QR code with the client to initiate payment.</p>
             {qrToken && (
               <div className="p-4 bg-white rounded-xl shadow border border-border">
-                <img src={`https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${qrToken}`} alt="QR Code" className="w-44 h-44" />
+                <img src={`https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${qrToken}`} alt="QR Code" className="w-40 h-40" />
               </div>
             )}
             <p className="font-mono text-xs bg-muted px-3 py-1.5 rounded break-all">{qrToken}</p>
@@ -332,61 +332,75 @@ export default function Payments() {
           </div>
         </div>
         <CardContent className="p-0">
-          <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow className="bg-muted/50">
-                  <TableHead>Client Name</TableHead>
-                  <TableHead>Project Title</TableHead>
-                  <TableHead>Budget</TableHead>
-                  <TableHead>Amount Paid</TableHead>
-                  <TableHead>Outstanding Due</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
+          {/* Mobile card view */}
+          <div className="md:hidden divide-y divide-border/50">
+            {(() => {
+              const projectsWithDues = projectsData?.data?.filter(p => (p.totalAmount - p.paidAmount) > 0) ?? [];
+              if (projectsWithDues.length === 0) {
+                return <div className="py-10 text-center text-sm text-muted-foreground">No active projects with outstanding dues.</div>;
+              }
+              return projectsWithDues.map((project) => {
+                const due = project.totalAmount - project.paidAmount;
+                return (
+                  <div key={project.id} className="p-4 space-y-2">
+                    <div className="flex items-start justify-between gap-2">
+                      <div>
+                        <p className="font-semibold text-sm text-foreground">{project.clientName || "—"}</p>
+                        <p className="text-xs text-muted-foreground">{project.name}</p>
+                      </div>
+                      <Button size="sm" variant="outline" className="border-amber-500 text-amber-600 hover:bg-amber-500/10 text-xs h-8 px-3 shrink-0"
+                        onClick={() => { setSelectedManualProject(project); setManualAmount(""); setManualPaymentType("Bank Transfer"); setManualNote(""); setIsManualDialogOpen(true); }}>
+                        Record
+                      </Button>
+                    </div>
+                    <div className="grid grid-cols-3 gap-2 text-xs">
+                      <div><p className="text-muted-foreground">Budget</p><p className="font-medium">{formatCurrency(project.totalAmount, project.currency as Currency)}</p></div>
+                      <div><p className="text-muted-foreground">Paid</p><p className="font-medium text-emerald-600">{formatCurrency(project.paidAmount, project.currency as Currency)}</p></div>
+                      <div><p className="text-muted-foreground">Due</p><p className="font-bold text-amber-600">{formatCurrency(due, project.currency as Currency)}</p></div>
+                    </div>
+                  </div>
+                );
+              });
+            })()}
+          </div>
+          {/* Desktop table view */}
+          <div className="hidden md:block overflow-x-auto">
+            <table className="w-full min-w-[600px]">
+              <thead><tr className="bg-muted/50 border-b border-border/50">
+                <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">Client Name</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">Project Title</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">Budget</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">Amount Paid</th>
+                <th className="px-4 py-3 text-left text-xs font-semibold text-muted-foreground">Outstanding Due</th>
+                <th className="px-4 py-3 text-right text-xs font-semibold text-muted-foreground">Actions</th>
+              </tr></thead>
+              <tbody className="divide-y divide-border/50">
                 {(() => {
                   const projectsWithDues = projectsData?.data?.filter(p => (p.totalAmount - p.paidAmount) > 0) ?? [];
                   if (projectsWithDues.length === 0) {
-                    return (
-                      <TableRow>
-                        <TableCell colSpan={6} className="h-20 text-center text-muted-foreground text-sm">
-                          No active projects with outstanding dues.
-                        </TableCell>
-                      </TableRow>
-                    );
+                    return <tr><td colSpan={6} className="h-20 text-center text-muted-foreground text-sm">No active projects with outstanding dues.</td></tr>;
                   }
                   return projectsWithDues.map((project) => {
                     const due = project.totalAmount - project.paidAmount;
                     return (
-                      <TableRow key={project.id} className="hover:bg-muted/30">
-                        <TableCell className="font-semibold text-sm text-foreground">{project.clientName || "—"}</TableCell>
-                        <TableCell className="text-sm text-muted-foreground">{project.name}</TableCell>
-                        <TableCell className="text-sm font-medium text-foreground">{formatCurrency(project.totalAmount, project.currency as Currency)}</TableCell>
-                        <TableCell className="text-sm text-emerald-600 dark:text-emerald-400">{formatCurrency(project.paidAmount, project.currency as Currency)}</TableCell>
-                        <TableCell className="text-sm font-black text-amber-600 dark:text-amber-400">{formatCurrency(due, project.currency as Currency)}</TableCell>
-                        <TableCell className="text-right">
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            className="border-amber-500 text-amber-600 hover:bg-amber-500/10 text-xs h-8 px-3"
-                            onClick={() => {
-                              setSelectedManualProject(project);
-                              setManualAmount("");
-                              setManualPaymentType("Bank Transfer");
-                              setManualNote("");
-                              setIsManualDialogOpen(true);
-                            }}
-                          >
+                      <tr key={project.id} className="hover:bg-muted/30 transition-colors">
+                        <td className="px-4 py-3 font-semibold text-sm text-foreground">{project.clientName || "—"}</td>
+                        <td className="px-4 py-3 text-sm text-muted-foreground">{project.name}</td>
+                        <td className="px-4 py-3 text-sm font-medium">{formatCurrency(project.totalAmount, project.currency as Currency)}</td>
+                        <td className="px-4 py-3 text-sm text-emerald-600 dark:text-emerald-400">{formatCurrency(project.paidAmount, project.currency as Currency)}</td>
+                        <td className="px-4 py-3 text-sm font-black text-amber-600 dark:text-amber-400">{formatCurrency(due, project.currency as Currency)}</td>
+                        <td className="px-4 py-3 text-right">
+                          <Button size="sm" variant="outline" className="border-amber-500 text-amber-600 hover:bg-amber-500/10 text-xs h-8 px-3"
+                            onClick={() => { setSelectedManualProject(project); setManualAmount(""); setManualPaymentType("Bank Transfer"); setManualNote(""); setIsManualDialogOpen(true); }}>
                             Record Payment
                           </Button>
-                        </TableCell>
-                      </TableRow>
+                        </td>
+                      </tr>
                     );
                   });
                 })()}
-              </TableBody>
-            </Table>
+              </tbody>
+            </table>
           </div>
         </CardContent>
       </Card>

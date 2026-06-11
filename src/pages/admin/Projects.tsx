@@ -734,11 +734,11 @@ export default function Projects() {
       ) : (
         <>
           {/* ========== BOARD VIEW (Kanban with Drag & Drop) ========== */}
-          {viewMode === "board" && (
-            <div className={`grid gap-3 sm:gap-4 items-start ${
-              projectStatusTab === "completed" 
-                ? "grid-cols-1 max-w-sm" 
-                : "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+{viewMode === "board" && (
+            <div className={`board-scroll flex lg:grid gap-3 sm:gap-4 items-start pb-2 snap-x snap-mandatory overflow-x-auto ${
+              projectStatusTab === "completed"
+                ? "lg:grid-cols-1 lg:max-w-sm"
+                : "lg:grid-cols-4"
             }`}>
               {BOARD_COLUMNS.filter(col => 
                 projectStatusTab === "completed" 
@@ -750,7 +750,7 @@ export default function Projects() {
                 return (
                   <div
                     key={col.key}
-                    className="space-y-2.5 min-h-[200px]"
+                    className="board-col snap-start min-w-[280px] lg:min-w-0 space-y-2.5 min-h-[200px]"
                     onDragOver={(e) => handleDragOver(e, col.key)}
                     onDragLeave={handleDragLeave}
                     onDrop={(e) => handleDrop(e, col.key)}

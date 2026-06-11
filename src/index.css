@@ -197,3 +197,74 @@ select:required:invalid:focus-visible {
   border-color: #ef4444 !important;
   box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.4) !important;
 }
+
+/* ── Global Responsive Utilities (320px → 1920px) ──────────────────────── */
+
+/* Prevent any element from causing horizontal scroll */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* Custom scrollbar — thin & styled */
+.custom-scrollbar::-webkit-scrollbar { width: 4px; height: 4px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: hsl(var(--border)); border-radius: 4px; }
+.custom-scrollbar::-webkit-scrollbar-thumb:hover { background: hsl(var(--muted-foreground) / 0.4); }
+
+/* ── 320px edge-case fixes ──────────────────────────────────────────────── */
+@media (max-width: 359px) {
+  /* Tighten card padding on very small phones */
+  .p-4 { padding: 0.625rem !important; }
+  .p-5 { padding: 0.75rem !important; }
+  .p-6 { padding: 0.875rem !important; }
+
+  /* Ensure dialog never overflows screen */
+  [role="dialog"] {
+    max-width: calc(100vw - 1rem) !important;
+    margin-left: 0.5rem !important;
+    margin-right: 0.5rem !important;
+  }
+
+  /* Wrap button groups on very narrow screens */
+  button {
+    min-width: 0 !important;
+  }
+}
+
+/* ── 1920px+ widescreen: max content width ─────────────────────────────── */
+@media (min-width: 1920px) {
+  .max-w-7xl { max-width: 1400px; }
+}
+
+/* ── Mobile bottom nav safe area padding (for iOS home indicator) ──────── */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  nav.fixed.bottom-0 {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* ── Kanban board mobile horizontal scroll ──────────────────────────────── */
+.board-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.board-scroll::-webkit-scrollbar { display: none; }
+.board-col {
+  scroll-snap-align: start;
+  min-width: 260px;
+  flex-shrink: 0;
+}
+
+/* ── Table horizontal scroll fix ───────────────────────────────────────── */
+.table-scroll-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ── Smooth transitions for responsive layout shifts ───────────────────── */
+header, aside, main, nav {
+  transition: padding 0.2s ease, width 0.2s ease;
+}

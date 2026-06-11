@@ -182,13 +182,13 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
       {/* Main */}
       <main className="flex-1 flex flex-col overflow-hidden min-w-0">
         {/* Topbar */}
-        <header className="h-14 sm:h-16 border-b border-border bg-card flex items-center gap-3 px-3 sm:px-5 shrink-0 shadow-sm">
-          <button className="lg:hidden p-1.5 rounded-lg hover:bg-muted" onClick={() => setSidebarOpen(true)}>
-            <Menu className="w-5 h-5" />
+        <header className="h-12 sm:h-14 lg:h-16 border-b border-border bg-card flex items-center gap-1.5 sm:gap-3 px-2 sm:px-4 lg:px-5 shrink-0 shadow-sm">
+          <button className="lg:hidden p-1.5 rounded-lg hover:bg-muted shrink-0" onClick={() => setSidebarOpen(true)}>
+            <Menu className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
-          <div className="flex items-center gap-1.5 bg-gradient-to-r from-slate-800 to-zinc-700 dark:from-indigo-600 dark:to-violet-600 text-white font-bold text-[9px] sm:text-[10px] px-3 py-1.5 rounded-lg shadow-md shadow-slate-500/20 dark:shadow-indigo-500/20 tracking-widest uppercase shrink-0 select-none">
-            <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
-            Admin Portal
+          <div className="flex items-center gap-1 sm:gap-1.5 bg-gradient-to-r from-slate-800 to-zinc-700 dark:from-indigo-600 dark:to-violet-600 text-white font-bold text-[8px] sm:text-[9px] lg:text-[10px] px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg shadow-md shadow-slate-500/20 dark:shadow-indigo-500/20 tracking-widest uppercase shrink-0 select-none">
+            <svg className="w-2.5 h-2.5 sm:w-3 sm:h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+            <span className="hidden xs:inline">Admin</span> Portal
           </div>
 
           {/* Search */}
@@ -203,26 +203,26 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
             />
           </div>
 
-          <div className="ml-auto flex items-center gap-2">
+          <div className="ml-auto flex items-center gap-1 sm:gap-2">
             {/* Theme Toggle Button */}
             <button
               onClick={() => setIsDark(prev => !prev)}
-              className="p-2 rounded-lg hover:bg-muted transition-colors text-foreground flex items-center justify-center cursor-pointer"
+              className="p-1.5 sm:p-2 rounded-lg hover:bg-muted transition-colors text-foreground flex items-center justify-center cursor-pointer"
               title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
             >
-              {isDark ? <Sun className="w-5 h-5 text-amber-400" /> : <Moon className="w-5 h-5 text-violet-600" />}
+              {isDark ? <Sun className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400" /> : <Moon className="w-4 h-4 sm:w-5 sm:h-5 text-violet-600" />}
             </button>
 
             {/* Chat message notifications */}
             <div className="relative">
               <Link href="/chat">
                 <button
-                  className="relative p-2 rounded-lg hover:bg-muted transition-colors flex items-center justify-center text-foreground hover:text-primary"
+                  className="relative p-1.5 sm:p-2 rounded-lg hover:bg-muted transition-colors flex items-center justify-center text-foreground hover:text-primary"
                   title="Admin Chat"
                 >
-                  <MessageSquare className="w-5 h-5" />
+                  <MessageSquare className="w-4 h-4 sm:w-5 sm:h-5" />
                   {chatUnreadCount > 0 && (
-                    <span className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-indigo-600 text-white text-[10px] font-bold flex items-center justify-center animate-pulse">
+                    <span className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-indigo-600 text-white text-[9px] sm:text-[10px] font-bold flex items-center justify-center animate-pulse">
                       {chatUnreadCount > 9 ? "9+" : chatUnreadCount}
                     </span>
                   )}
@@ -234,12 +234,12 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
             <div className="relative">
               <button
                 onClick={() => { setSessionOpen(o => !o); setNotifOpen(false); }}
-                className="relative p-2 rounded-lg hover:bg-muted transition-colors flex items-center justify-center"
+                className="relative p-1.5 sm:p-2 rounded-lg hover:bg-muted transition-colors flex items-center justify-center"
                 title="Client Session Logs"
               >
-                <UserCheck className="w-5 h-5 text-foreground" />
+                <UserCheck className="w-4 h-4 sm:w-5 sm:h-5 text-foreground" />
                 {unreadLoginCount > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-primary text-white text-[10px] font-bold flex items-center justify-center">
+                  <span className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-primary text-white text-[9px] sm:text-[10px] font-bold flex items-center justify-center">
                     {unreadLoginCount > 9 ? "9+" : unreadLoginCount}
                   </span>
                 )}
@@ -248,7 +248,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
               {sessionOpen && (
                 <>
                   <div className="fixed inset-0 z-40" onClick={() => setSessionOpen(false)} />
-                  <div className="absolute right-0 top-12 w-80 bg-card border border-border rounded-xl shadow-2xl z-50 overflow-hidden">
+                  <div className="absolute right-0 top-10 sm:top-12 w-[min(320px,calc(100vw-1rem))] bg-card border border-border rounded-xl shadow-2xl z-50 overflow-hidden">
                     <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-muted/30">
                       <span className="font-semibold text-sm">Client Session Logs</span>
                       <div className="flex items-center gap-2">
@@ -293,12 +293,12 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
             <div className="relative">
               <button
                 onClick={() => { setNotifOpen(o => !o); setSessionOpen(false); }}
-                className="relative p-2 rounded-lg hover:bg-muted transition-colors"
+                className="relative p-1.5 sm:p-2 rounded-lg hover:bg-muted transition-colors"
                 title="Notifications"
               >
-                <Bell className="w-5 h-5 text-foreground" />
+                <Bell className="w-4 h-4 sm:w-5 sm:h-5 text-foreground" />
                 {unreadGeneralCount > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-primary text-white text-[10px] font-bold flex items-center justify-center">
+                  <span className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-primary text-white text-[9px] sm:text-[10px] font-bold flex items-center justify-center">
                     {unreadGeneralCount > 9 ? "9+" : unreadGeneralCount}
                   </span>
                 )}
@@ -307,7 +307,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
               {notifOpen && (
                 <>
                   <div className="fixed inset-0 z-40" onClick={() => setNotifOpen(false)} />
-                  <div className="absolute right-0 top-12 w-80 bg-card border border-border rounded-xl shadow-2xl z-50 overflow-hidden">
+                  <div className="absolute right-0 top-10 sm:top-12 w-[min(320px,calc(100vw-1rem))] bg-card border border-border rounded-xl shadow-2xl z-50 overflow-hidden">
                     <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-muted/30">
                       <span className="font-semibold text-sm">Notifications</span>
                       <div className="flex items-center gap-2">
@@ -415,7 +415,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
         </header>
 
         <div className="flex-1 overflow-auto">
-          <div className="p-4 sm:p-6 lg:p-8">
+          <div className="p-3 sm:p-4 md:p-6 lg:p-8 xl:p-10 2xl:p-12">
             <div className="max-w-7xl 2xl:max-w-[1600px] mx-auto w-full">
               {children}
             </div>

@@ -9,19 +9,15 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 // Inline Payment QR using api.qrserver.com
 const PAYMENT_NUMBER = "9121751697";
 
-function getQrImageUrl() {
-  return `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${PAYMENT_NUMBER}`;
-}
-
 interface Msg { id: string; subject: string; message: string; isRead: boolean; category?: string; createdAt: string; }
 interface MsgsResp { messages: Msg[]; unreadCount: number; }
 
 const navItems = [
-  { href: "/client", label: "My Overview", icon: LayoutDashboard },
-  { href: "/client/project", label: "My Project", icon: Briefcase },
-  { href: "/client/payments", label: "Payments & Invoices", icon: CreditCard },
+  { href: "/client", label: "Overview", icon: LayoutDashboard },
+  { href: "/client/project", label: "Project", icon: Briefcase },
+  { href: "/client/payments", label: "Payments", icon: CreditCard },
   { href: "/client/chat", label: "Chat", icon: MessageSquare },
-  { href: "/client/profile", label: "My Profile", icon: User },
+  { href: "/client/profile", label: "Profile", icon: User },
 ];
 
 export default function ClientLayout({ children }: { children: ReactNode }) {
@@ -130,7 +126,7 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
               }`}
             >
               <Icon className="w-4 h-4 shrink-0" />
-              <span className="flex-1">{label}</span>
+              <span className="flex-1">{label === "Overview" ? "My Overview" : label === "Project" ? "My Project" : label === "Payments" ? "Payments & Invoices" : label}</span>
               {label === "Chat" && chatUnreadCount > 0 && (
                 <span className="bg-indigo-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0">
                   {chatUnreadCount}
@@ -165,53 +161,54 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
 
   return (
     <div className="flex h-screen bg-background overflow-hidden">
+      {/* Desktop Sidebar — hidden on mobile */}
       <aside className="hidden lg:flex w-56 bg-sidebar flex-col shadow-xl shrink-0">
         <SidebarContent />
       </aside>
 
+      {/* Mobile Drawer Sidebar */}
       {sidebarOpen && (
         <div className="fixed inset-0 z-40 lg:hidden">
           <div className="absolute inset-0 bg-black/60" onClick={() => setSidebarOpen(false)} />
-          <aside className="relative z-50 w-60 h-full bg-sidebar flex flex-col shadow-2xl">
+          <aside className="relative z-50 w-64 h-full bg-sidebar flex flex-col shadow-2xl">
             <SidebarContent isMobile />
           </aside>
         </div>
       )}
 
       <main className="flex-1 flex flex-col overflow-hidden min-w-0">
-        <header className="h-14 sm:h-16 border-b border-border bg-card flex items-center gap-2 sm:gap-3 px-3 sm:px-6 shrink-0 shadow-sm">
-          <button className="lg:hidden p-1.5 rounded-lg hover:bg-muted" onClick={() => setSidebarOpen(true)}>
+        {/* Topbar */}
+        <header className="h-12 sm:h-14 lg:h-16 border-b border-border bg-card flex items-center gap-2 sm:gap-3 px-2 sm:px-4 lg:px-6 shrink-0 shadow-sm">
+          {/* Hamburger — desktop only (mobile uses bottom nav) */}
+          <button className="hidden sm:flex lg:hidden p-1.5 rounded-lg hover:bg-muted" onClick={() => setSidebarOpen(true)}>
             <Menu className="w-5 h-5" />
           </button>
-          <div className="flex items-center gap-1.5 bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-bold text-[9px] sm:text-[10px] px-3 py-1.5 rounded-lg shadow-md shadow-indigo-500/20 tracking-widest uppercase shrink-0 select-none">
-            <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
-            Client Portal
+          <div className="flex items-center gap-1 sm:gap-1.5 bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-bold text-[8px] sm:text-[9px] lg:text-[10px] px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg shadow-md shadow-indigo-500/20 tracking-widest uppercase shrink-0 select-none">
+            <svg className="w-2.5 h-2.5 sm:w-3 sm:h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+            <span className="hidden sm:inline">Client</span> Portal
           </div>
           {user?.name && (
-            <span className="text-xs sm:text-sm lg:text-base text-muted-foreground font-medium truncate">
-              Welcome back, {user.name.split(" ")[0]} 👋
+            <span className="hidden sm:inline text-xs sm:text-sm text-muted-foreground font-medium truncate max-w-[120px] sm:max-w-none">
+              Welcome, {user.name.split(" ")[0]} 👋
             </span>
           )}
-          <div className="ml-auto flex items-center gap-2">
-            {/* Theme Toggle Button */}
+          <div className="ml-auto flex items-center gap-1 sm:gap-2">
+            {/* Theme Toggle */}
             <button
               onClick={() => setIsDark(prev => !prev)}
-              className="p-2 rounded-lg hover:bg-muted transition-colors text-foreground flex items-center justify-center cursor-pointer"
-              title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
+              className="p-1.5 sm:p-2 rounded-lg hover:bg-muted transition-colors text-foreground flex items-center justify-center cursor-pointer"
+              title={isDark ? "Light Mode" : "Dark Mode"}
             >
-              {isDark ? <Sun className="w-5 h-5 text-amber-400" /> : <Moon className="w-5 h-5 text-violet-600" />}
+              {isDark ? <Sun className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400" /> : <Moon className="w-4 h-4 sm:w-5 sm:h-5 text-violet-600" />}
             </button>
 
-            {/* Chat message notifications */}
+            {/* Chat icon */}
             <div className="relative">
               <Link href="/client/chat">
-                <button
-                  className="relative p-2 rounded-lg hover:bg-muted transition-colors flex items-center justify-center text-foreground hover:text-primary"
-                  title="Chat with Admin"
-                >
-                  <MessageSquare className="w-5 h-5" />
+                <button className="relative p-1.5 sm:p-2 rounded-lg hover:bg-muted transition-colors flex items-center justify-center text-foreground hover:text-primary" title="Chat with Admin">
+                  <MessageSquare className="w-4 h-4 sm:w-5 sm:h-5" />
                   {chatUnreadCount > 0 && (
-                    <span className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-indigo-600 text-white text-[10px] font-bold flex items-center justify-center animate-pulse">
+                    <span className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-indigo-600 text-white text-[9px] sm:text-[10px] font-bold flex items-center justify-center animate-pulse">
                       {chatUnreadCount > 9 ? "9+" : chatUnreadCount}
                     </span>
                   )}
@@ -219,15 +216,15 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
               </Link>
             </div>
 
-            {/* Message notifications bell */}
+            {/* Bell */}
             <div className="relative">
               <button
                 onClick={() => setNotifOpen(o => !o)}
-                className="relative p-2 rounded-lg hover:bg-muted transition-colors"
+                className="relative p-1.5 sm:p-2 rounded-lg hover:bg-muted transition-colors"
               >
-                <Bell className="w-5 h-5 text-foreground" />
+                <Bell className="w-4 h-4 sm:w-5 sm:h-5 text-foreground" />
                 {unreadCount > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-primary text-white text-[10px] font-bold flex items-center justify-center">
+                  <span className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-primary text-white text-[9px] sm:text-[10px] font-bold flex items-center justify-center">
                     {unreadCount > 9 ? "9+" : unreadCount}
                   </span>
                 )}
@@ -236,7 +233,7 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
               {notifOpen && (
                 <>
                   <div className="fixed inset-0 z-40" onClick={() => setNotifOpen(false)} />
-                  <div className="absolute right-0 top-12 w-80 bg-card border border-border rounded-xl shadow-2xl z-50 overflow-hidden">
+                  <div className="absolute right-0 top-10 sm:top-12 w-[min(320px,calc(100vw-1rem))] bg-card border border-border rounded-xl shadow-2xl z-50 overflow-hidden">
                     <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-muted/30">
                       <span className="font-semibold text-sm">Messages from SBS</span>
                       <div className="flex items-center gap-2">
@@ -250,7 +247,7 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
                         </button>
                       </div>
                     </div>
-                    <div className="max-h-80 overflow-y-auto divide-y divide-border/50">
+                    <div className="max-h-72 sm:max-h-80 overflow-y-auto divide-y divide-border/50">
                       {messages.length === 0 ? (
                         <div className="px-4 py-8 text-center text-sm text-muted-foreground">No messages yet</div>
                       ) : messages.map(m => (
@@ -263,7 +260,7 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
                             {!m.isRead && <div className="w-2 h-2 rounded-full bg-primary mt-1.5 shrink-0" />}
                             <div className={`min-w-0 flex-1 ${m.isRead ? "ml-4" : ""}`}>
                               <p className="text-xs font-semibold text-foreground">{m.subject}</p>
-                              <p className="text-xs text-muted-foreground mt-0.5 line-clamp-3">{m.message}</p>
+                              <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">{m.message}</p>
                               <p className="text-[10px] text-muted-foreground/60 mt-1">
                                 {new Date(m.createdAt).toLocaleString()}
                               </p>
@@ -275,21 +272,23 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
                   </div>
                 </>
               )}
-            </div>            {/* QR Payment Icon */}
+            </div>
+
+            {/* QR Payment Icon */}
             <div className="relative">
               <button
                 onClick={() => { setQrOpen(o => !o); setNotifOpen(false); }}
-                className="p-2 rounded-lg hover:bg-muted transition-colors text-muted-foreground hover:text-primary flex items-center gap-1.5"
+                className="p-1.5 sm:p-2 rounded-lg hover:bg-muted transition-colors text-muted-foreground hover:text-primary flex items-center gap-1"
                 title="Pay via QR Code"
               >
-                <QrCode className="w-5 h-5" />
-                <span className="text-xs font-medium">QR Code</span>
+                <QrCode className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span className="hidden md:inline text-xs font-medium">QR</span>
               </button>
 
               {qrOpen && (
                 <>
                   <div className="fixed inset-0 z-40" onClick={() => setQrOpen(false)} />
-                  <div className="absolute right-0 top-12 w-72 bg-card border border-border rounded-xl shadow-2xl z-50 overflow-hidden">
+                  <div className="absolute right-0 top-10 sm:top-12 w-[min(288px,calc(100vw-1rem))] bg-card border border-border rounded-xl shadow-2xl z-50 overflow-hidden">
                     <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-gradient-to-r from-primary/10 to-indigo-500/10">
                       <div className="flex items-center gap-2">
                         <QrCode className="w-4 h-4 text-primary" />
@@ -317,7 +316,7 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
                               : `upi://pay?pa=akhilthadaka1@ybl&pn=Strategic%20Brand%20Solutions&cu=INR`
                           )}`}
                           alt="Payment QR Code"
-                          className="w-44 h-44 rounded-lg"
+                          className="w-40 h-40 rounded-lg"
                         />
                       </div>
                       <p className="text-xs font-mono text-primary bg-primary/5 px-3 py-1.5 rounded-lg text-center select-all">UPI ID: akhilthadaka1@ybl</p>
@@ -327,8 +326,7 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
               )}
             </div>
 
-
-            {/* Avatar circle with dropdown */}
+            {/* Avatar + dropdown */}
             <div className="relative">
               <button
                 onClick={() => { setProfileOpen(o => !o); setQrOpen(false); setNotifOpen(false); }}
@@ -338,10 +336,10 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
                   <img
                     src={user.photoUrl.startsWith('http') ? user.photoUrl : `${(window as any).BACKEND_URL}${user.photoUrl}`}
                     alt={user.name || "Client"}
-                    className="w-8 h-8 rounded-full object-cover border border-border shrink-0"
+                    className="w-7 h-7 sm:w-8 sm:h-8 rounded-full object-cover border border-border shrink-0"
                   />
                 ) : (
-                  <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm">
+                  <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-xs sm:text-sm">
                     {initials}
                   </div>
                 )}
@@ -350,7 +348,7 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
               {profileOpen && (
                 <>
                   <div className="fixed inset-0 z-40" onClick={() => setProfileOpen(false)} />
-                  <div className="absolute right-0 top-12 w-56 bg-card border border-border rounded-xl shadow-2xl z-50 overflow-hidden divide-y divide-border/50 animate-in fade-in slide-in-from-top-2 duration-200">
+                  <div className="absolute right-0 top-10 sm:top-12 w-52 bg-card border border-border rounded-xl shadow-2xl z-50 overflow-hidden divide-y divide-border/50 animate-in fade-in slide-in-from-top-2 duration-200">
                     <div className="px-4 py-3 bg-muted/10">
                       <p className="text-xs font-semibold text-foreground truncate">{user?.name || "Client"}</p>
                       <p className="text-[10px] text-muted-foreground truncate">{user?.email}</p>
@@ -379,14 +377,57 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
             </div>
           </div>
         </header>
-        <div className="flex-1 overflow-auto">
-          <div className="p-6 sm:p-8 lg:p-12">
+
+        {/* Page Content */}
+        <div className="flex-1 overflow-auto pb-16 lg:pb-0">
+          <div className="p-3 sm:p-4 md:p-6 lg:p-8 xl:p-10 2xl:p-12">
             <div className="max-w-7xl 2xl:max-w-[1600px] mx-auto w-full">
               {children}
             </div>
           </div>
         </div>
       </main>
+
+      {/* ── Mobile Bottom Navigation Bar (hidden on lg+) ─────────────────── */}
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-md border-t border-border shadow-[0_-4px_24px_rgba(0,0,0,0.12)] flex items-stretch">
+        {navItems.map(({ href, label, icon: Icon }) => {
+          const isActive = href === "/client"
+            ? location === "/client" || location === "/client/"
+            : location.startsWith(href);
+          const isChatItem = label === "Chat";
+          return (
+            <Link
+              key={href}
+              href={href}
+              className={`flex-1 flex flex-col items-center justify-center py-2 gap-0.5 relative transition-colors ${
+                isActive
+                  ? "text-primary"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <div className="relative">
+                <Icon className={`w-5 h-5 transition-transform ${isActive ? "scale-110" : ""}`} />
+                {isChatItem && chatUnreadCount > 0 && (
+                  <span className="absolute -top-1.5 -right-1.5 w-3.5 h-3.5 rounded-full bg-indigo-600 text-white text-[8px] font-bold flex items-center justify-center">
+                    {chatUnreadCount > 9 ? "9+" : chatUnreadCount}
+                  </span>
+                )}
+                {label === "Overview" && unreadCount > 0 && (
+                  <span className="absolute -top-1.5 -right-1.5 w-3.5 h-3.5 rounded-full bg-primary text-white text-[8px] font-bold flex items-center justify-center">
+                    {unreadCount > 9 ? "9+" : unreadCount}
+                  </span>
+                )}
+              </div>
+              <span className={`text-[10px] font-medium leading-none ${isActive ? "text-primary" : ""}`}>
+                {label}
+              </span>
+              {isActive && (
+                <span className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-primary rounded-full" />
+              )}
+            </Link>
+          );
+        })}
+      </nav>
     </div>
   );
 }
