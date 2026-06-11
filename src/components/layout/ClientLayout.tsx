@@ -1,7 +1,7 @@
 import { ReactNode, useState, useRef, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { LayoutDashboard, Briefcase, LogOut, Menu, X, User, Bell, CreditCard, MessageSquare, QrCode, Sun, Moon } from "lucide-react";
-import SBLogo from "@/components/SBLogo";
+import logo from "@/assets/logo.jpg";
 import { useLogout, useAuthUser } from "@/hooks/useAuth";
 import { apiFetch } from "@/lib/api";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -101,7 +101,7 @@ export default function ClientLayout({ children }: { children: ReactNode }) {
             className="w-9 h-9 rounded-full border-2 border-primary shrink-0 object-cover"
           />
         ) : (
-          <SBLogo size={36} rounded="xl" />
+          <img src={logo} alt="SBS" className="w-9 h-9 rounded-full border-2 border-primary shrink-0 object-cover" />
         )}
         <div className="min-w-0">
           <span className="font-serif font-bold text-sidebar-foreground text-sm leading-tight block">{brandLogoText}</span>

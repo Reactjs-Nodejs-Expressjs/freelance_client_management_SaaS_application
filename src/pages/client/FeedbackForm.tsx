@@ -8,7 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import { apiFetch } from "@/lib/api";
 import { motion, AnimatePresence } from "framer-motion";
 import { Star, Send, CheckCircle2, MessageSquare, AlertCircle } from "lucide-react";
-import SBLogo from "@/components/SBLogo";
+import logo from "@/assets/logo.jpg";
 
 export default function FeedbackForm() {
   const [location] = useLocation();
@@ -111,7 +111,7 @@ export default function FeedbackForm() {
       
       {/* Brand Logo Header */}
       <div className="flex items-center gap-3 mb-6 sm:mb-8 select-none">
-        <SBLogo size={48} rounded="xl" />
+        <img src={logo} alt="SBS Logo" className="w-12 h-12 rounded-full border-2 border-primary object-cover shadow-sm" />
         <div>
           <span className="font-serif font-black text-foreground text-lg block leading-tight tracking-wide">Strategic Brand Solutions</span>
           <span className="text-xs text-muted-foreground block">Creative Digital Consultancy</span>

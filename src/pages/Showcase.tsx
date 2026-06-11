@@ -16,7 +16,7 @@ import {
   Settings, LogOut, LayoutDashboard, Calendar, IndianRupee, DollarSign,
   AlertCircle, ShieldCheck, Clock, Award
 } from "lucide-react";
-import SBLogo from "@/components/SBLogo";
+import logo from "@/assets/logo.jpg";
 
 interface Milestone {
   _id: string;
@@ -164,7 +164,7 @@ export default function Showcase() {
       <header className="sticky top-0 z-50 w-full border-b border-border bg-background/85 backdrop-blur-md px-4 sm:px-6 lg:px-8 shadow-xs">
         <div className="max-w-7xl mx-auto flex h-16 items-center justify-between">
           <Link href="/" className="flex items-center gap-3 cursor-pointer select-none">
-            <SBLogo size={40} rounded="xl" />
+            <img src={logo} alt="SBS Logo" className="w-10 h-10 rounded-full border-2 border-primary object-cover shadow-sm" />
             <div className="hidden sm:block">
               <span className="font-serif font-black text-foreground text-sm tracking-wide block leading-none">Strategic Brand Solutions</span>
               <span className="text-[10px] text-muted-foreground block mt-0.5">Creative Brand Consulting</span>
@@ -571,7 +571,7 @@ export default function Showcase() {
       <footer className="border-t bg-card py-10 px-4 sm:px-6 lg:px-8 text-center text-xs text-muted-foreground mt-auto">
         <div className="max-w-7xl mx-auto space-y-4">
           <div className="flex items-center justify-center gap-2">
-            <SBLogo size={24} rounded="lg" />
+            <img src={logo} alt="SBS" className="w-6 h-6 rounded-full object-cover" />
             <span className="font-serif font-bold text-foreground">Strategic Brand Solutions</span>
           </div>
           <p>© {new Date().getFullYear()} Strategic Brand Solutions. All rights reserved.</p>

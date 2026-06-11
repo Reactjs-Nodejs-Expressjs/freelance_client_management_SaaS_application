@@ -5,7 +5,7 @@ import {
   LogOut, Menu, X, Bell, Search, ChevronRight, Key, UserCheck, MessageSquare,
   CalendarDays, FileText, BarChart3, Receipt, Star, Sun, Moon
 } from "lucide-react";
-import SBLogo from "@/components/SBLogo";
+import logo from "@/assets/logo.jpg";
 import { useNotifications } from "@/hooks/useNotifications";
 import { useLogout, useAuthUser } from "@/hooks/useAuth";
 import { apiFetch } from "@/lib/api";
@@ -111,7 +111,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
             className="w-9 h-9 rounded-full border-2 border-primary shrink-0 object-cover"
           />
         ) : (
-          <SBLogo size={36} rounded="xl" />
+          <img src={logo} alt="SBS" className="w-9 h-9 rounded-full border-2 border-primary shrink-0 object-cover" />
         )}
         <div className="min-w-0">
           <span className="font-serif font-bold text-sidebar-foreground text-sm leading-tight block">{sidebarLogoText}</span>

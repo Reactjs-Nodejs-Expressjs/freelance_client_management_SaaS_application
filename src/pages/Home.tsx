@@ -20,7 +20,7 @@ import {
   Sun, Moon, ShieldAlert, Award, Target, HelpCircle, ChevronRight,
   Settings, LogOut, Users, Briefcase, CreditCard, Menu, X
 } from "lucide-react";
-import SBLogo from "@/components/SBLogo";
+import logo from "@/assets/logo.jpg";
 import paymentsMockup from "@/assets/payments_mockup.png";
 import { Badge } from "@/components/ui/badge";
 
@@ -588,7 +588,7 @@ export default function Home() {
       <header className="sticky top-0 z-50 w-full border-b border-border bg-background/85 backdrop-blur-md px-4 sm:px-6 lg:px-8 shadow-xs">
         <div className="max-w-7xl 2xl:max-w-[1600px] mx-auto flex h-16 items-center justify-between">
           <div className="flex items-center gap-3 cursor-pointer select-none" onClick={() => scrollTo("hero")}>
-            <SBLogo size={40} rounded="xl" />
+            <img src={logo} alt="SBS Logo" className="w-10 h-10 rounded-full border-2 border-primary object-cover shadow-sm" />
             <div className="hidden sm:block">
               <span className="font-serif font-black text-foreground text-sm tracking-wide block leading-none">Strategic Brand Solutions</span>
               <span className="text-[10px] text-muted-foreground block mt-0.5">Creative Brand Consulting</span>
@@ -717,7 +717,7 @@ export default function Home() {
               <div className="space-y-6">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <SBLogo size={32} rounded="xl" />
+                    <img src={logo} alt="Logo" className="w-8 h-8 rounded-full border-2 border-primary object-cover" />
                     <span className="font-serif font-black text-xs text-foreground truncate max-w-[140px]">Strategic Brand</span>
                   </div>
                   <button onClick={() => setMobileMenuOpen(false)} className="p-1 rounded-lg hover:bg-muted text-foreground cursor-pointer">
@@ -1266,7 +1266,7 @@ export default function Home() {
       <footer className="mt-auto border-t bg-card py-10 px-4 sm:px-6 lg:px-8 text-center text-xs text-muted-foreground">
         <div className="max-w-7xl mx-auto space-y-4">
           <div className="flex items-center justify-center gap-2">
-            <SBLogo size={24} rounded="lg" />
+            <img src={logo} alt="SBS" className="w-6 h-6 rounded-full object-cover" />
             <span className="font-serif font-bold text-foreground">Strategic Brand Solutions</span>
           </div>
           <p>© {new Date().getFullYear()} Strategic Brand Solutions. All rights reserved.</p>
