@@ -51,6 +51,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
   const [sessionOpen, setSessionOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
   const [search, setSearch] = useState("");
   const logout = useLogout();
   const { data: user } = useAuthUser();
@@ -347,9 +348,68 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
               )}
             </div>
 
-            {/* Avatar */}
-            <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm">
-              {user?.name?.charAt(0)?.toUpperCase() ?? "A"}
+            {/* Admin Avatar with Dropdown */}
+            <div className="relative">
+              <button
+                onClick={() => { setProfileOpen(o => !o); setNotifOpen(false); setSessionOpen(false); }}
+                className="w-8 h-8 rounded-full bg-gradient-to-tr from-primary to-indigo-600 text-white flex items-center justify-center font-bold text-sm shadow-md border-2 border-background hover:scale-105 active:scale-95 transition-transform cursor-pointer focus:outline-none"
+                title="Admin profile"
+              >
+                {user?.name?.charAt(0)?.toUpperCase() ?? "A"}
+              </button>
+
+              {profileOpen && (
+                <>
+                  <div className="fixed inset-0 z-40" onClick={() => setProfileOpen(false)} />
+                  <div className="absolute right-0 top-12 w-52 bg-card border border-border rounded-xl shadow-2xl z-50 overflow-hidden">
+                    {/* Header */}
+                    <div className="px-4 py-3 border-b border-border bg-muted/30">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-primary to-indigo-600 text-white flex items-center justify-center font-bold text-sm shrink-0">
+                          {user?.name?.charAt(0)?.toUpperCase() ?? "A"}
+                        </div>
+                        <div className="min-w-0">
+                          <p className="text-xs font-bold text-foreground truncate">{user?.name ?? "Admin"}</p>
+                          <p className="text-[10px] text-muted-foreground truncate">{user?.email}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Menu Items */}
+                    <div className="p-1.5 space-y-0.5">
+                      <Link href="/">
+                        <button
+                          onClick={() => setProfileOpen(false)}
+                          className="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-foreground hover:bg-primary/10 hover:text-primary rounded-lg transition-colors text-left cursor-pointer"
+                        >
+                          <LayoutDashboard className="w-3.5 h-3.5" />
+                          Dashboard
+                        </button>
+                      </Link>
+                      <Link href="/settings">
+                        <button
+                          onClick={() => setProfileOpen(false)}
+                          className="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-foreground hover:bg-primary/10 hover:text-primary rounded-lg transition-colors text-left cursor-pointer"
+                        >
+                          <Settings className="w-3.5 h-3.5" />
+                          Settings
+                        </button>
+                      </Link>
+                      <div className="border-t border-border/50 my-1" />
+                      <button
+                        onClick={() => {
+                          setProfileOpen(false);
+                          logout.mutate(undefined, { onSuccess: () => { window.location.href = "/login"; } });
+                        }}
+                        className="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-red-500 hover:bg-red-500/10 rounded-lg transition-colors text-left font-semibold cursor-pointer"
+                      >
+                        <LogOut className="w-3.5 h-3.5" />
+                        Logout
+                      </button>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </header>
