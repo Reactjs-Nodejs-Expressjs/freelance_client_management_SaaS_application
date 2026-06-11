@@ -469,7 +469,7 @@ export default function Payments() {
                             onClick={() => setSelectedProofPayment(payment)}
                           >
                             <img
-                              src={payment.screenshotUrl}
+                              src={payment.screenshotUrl.startsWith("http") ? payment.screenshotUrl : `${(window as any).BACKEND_URL}${payment.screenshotUrl}`}
                               alt="Receipt proof thumbnail"
                               className="w-full h-full object-cover"
                             />
@@ -577,7 +577,7 @@ export default function Payments() {
                     <span className="text-xs font-semibold text-muted-foreground block uppercase">Uploaded Receipt Proof Screenshot</span>
                     <div className="border border-border rounded-lg overflow-hidden bg-muted/20 flex justify-center items-center p-2 min-h-[300px]">
                       <img
-                        src={curPayment.screenshotUrl}
+                        src={curPayment.screenshotUrl.startsWith("http") ? curPayment.screenshotUrl : `${(window as any).BACKEND_URL}${curPayment.screenshotUrl}`}
                         alt="Payment proof full screen"
                         className="max-h-[450px] w-auto object-contain rounded border border-border"
                       />
