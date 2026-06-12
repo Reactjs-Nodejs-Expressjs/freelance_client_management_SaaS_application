@@ -168,6 +168,11 @@ export default function ClientPayments() {
   // Helper to get full image URL
   const getImageUrl = (url: string | null) => {
     if (!url) return null;
+    const uploadsIdx = url.indexOf('/uploads/');
+    if (uploadsIdx !== -1) {
+      const relPath = url.substring(uploadsIdx);
+      return `${(window as any).BACKEND_URL}${relPath}`;
+    }
     return url.startsWith('http') ? url : `${(window as any).BACKEND_URL}${url}`;
   };
 
@@ -444,6 +449,14 @@ export default function ClientPayments() {
                               <Button
                                 size="sm"
                                 variant="outline"
+                                className="h-8 text-xs inline-flex items-center gap-1 border-blue-400 text-blue-600 hover:bg-blue-50"
+                                onClick={() => window.open(`${(window as any).BACKEND_URL}/uploads/invoices/invoice-${p.id}.html`, "_blank")}
+                              >
+                                <FileText className="w-3.5 h-3.5" /> Invoice
+                              </Button>
+                              <Button
+                                size="sm"
+                                variant="outline"
                                 className="h-8 text-xs inline-flex items-center gap-1"
                                 onClick={() => {
                                   setActiveQrPayment(p);
@@ -549,7 +562,7 @@ export default function ClientPayments() {
                               size="sm"
                               variant="ghost"
                               className="h-8 w-8 p-0 text-muted-foreground hover:text-primary shrink-0"
-                              onClick={() => setSelectedInvoice(p)}
+                              onClick={() => window.open(`${(window as any).BACKEND_URL}/uploads/invoices/invoice-${p.id}.html`, "_blank")}
                               title="View Invoice"
                             >
                               <FileText className="w-4 h-4" />
@@ -660,19 +673,15 @@ export default function ClientPayments() {
                                 </Badge>
                               </div>
 
-                              {p.status === "verified" ? (
-                                <Button
-                                  size="sm"
-                                  variant="ghost"
-                                  className="h-8 w-8 p-0 text-muted-foreground hover:text-primary shrink-0"
-                                  onClick={() => setSelectedInvoice(p)}
-                                  title="View Invoice"
-                                >
-                                  <FileText className="w-4 h-4" />
-                                </Button>
-                              ) : (
-                                <div className="w-8 h-8 shrink-0" />
-                              )}
+                              <Button
+                                size="sm"
+                                variant="ghost"
+                                className="h-8 w-8 p-0 text-muted-foreground hover:text-primary shrink-0"
+                                onClick={() => window.open(`${(window as any).BACKEND_URL}/uploads/invoices/invoice-${p.id}.html`, "_blank")}
+                                title="View Invoice"
+                              >
+                                <FileText className="w-4 h-4" />
+                              </Button>
                             </div>
                           </div>
                         </div>

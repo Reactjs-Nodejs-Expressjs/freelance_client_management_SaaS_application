@@ -513,7 +513,6 @@ export default function ClientProjectDetail() {
                                 <QrCode className="w-2.5 h-2.5" /> View QR
                               </Button>
                             )}
-                            {payment.status === "verified" && (
                               <Button
                                 size="sm"
                                 variant="link"
@@ -522,7 +521,6 @@ export default function ClientProjectDetail() {
                               >
                                 <FileText className="w-2.5 h-2.5" /> Invoice
                               </Button>
-                            )}
                           </div>
                         </div>
                       </div>

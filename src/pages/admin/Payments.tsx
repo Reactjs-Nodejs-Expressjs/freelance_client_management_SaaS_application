@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
-import { Plus, CheckCircle2, QrCode, Shield, AlertTriangle, Clock } from "lucide-react";
+import { Plus, CheckCircle2, QrCode, Shield, AlertTriangle, Clock, FileText } from "lucide-react";
 import { motion } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
 import { apiFetch } from "@/lib/api";
@@ -193,6 +193,16 @@ export default function Payments() {
       currency: selectedCurrency,
       note: fd.get("note") || undefined,
     });
+  };
+
+  const getImageUrl = (url: string | null) => {
+    if (!url) return null;
+    const uploadsIdx = url.indexOf('/uploads/');
+    if (uploadsIdx !== -1) {
+      const relPath = url.substring(uploadsIdx);
+      return `${(window as any).BACKEND_URL}${relPath}`;
+    }
+    return url.startsWith('http') ? url : `${(window as any).BACKEND_URL}${url}`;
   };
 
   const payments = paymentsData?.data ?? [];
@@ -469,7 +479,7 @@ export default function Payments() {
                             onClick={() => setSelectedProofPayment(payment)}
                           >
                             <img
-                              src={payment.screenshotUrl.startsWith("http") ? payment.screenshotUrl : `${(window as any).BACKEND_URL}${payment.screenshotUrl}`}
+                              src={getImageUrl(payment.screenshotUrl) || ""}
                               alt="Receipt proof thumbnail"
                               className="w-full h-full object-cover"
                             />
@@ -489,6 +499,14 @@ export default function Payments() {
                           onClick={() => setSelectedProofPayment(payment)}
                         >
                           Review Proof
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="h-7 text-xs border-blue-400 text-blue-600 hover:bg-blue-50"
+                          onClick={() => window.open(`${(window as any).BACKEND_URL}/uploads/invoices/invoice-${payment.id}.html`, "_blank")}
+                        >
+                          <FileText className="w-3.5 h-3.5 mr-1" /> Invoice
                         </Button>
                         {payment.status !== "verified" && payment.status !== "failed" && payment.status !== "rejected" && (
                           <Button
@@ -577,7 +595,7 @@ export default function Payments() {
                     <span className="text-xs font-semibold text-muted-foreground block uppercase">Uploaded Receipt Proof Screenshot</span>
                     <div className="border border-border rounded-lg overflow-hidden bg-muted/20 flex justify-center items-center p-2 min-h-[300px]">
                       <img
-                        src={curPayment.screenshotUrl.startsWith("http") ? curPayment.screenshotUrl : `${(window as any).BACKEND_URL}${curPayment.screenshotUrl}`}
+                        src={getImageUrl(curPayment.screenshotUrl) || ""}
                         alt="Payment proof full screen"
                         className="max-h-[450px] w-auto object-contain rounded border border-border"
                       />
@@ -609,6 +627,14 @@ export default function Payments() {
                   </div>
 
                   <div className="flex gap-2 w-full sm:w-auto justify-end">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="border-blue-400 text-blue-600 hover:bg-blue-50"
+                      onClick={() => window.open(`${(window as any).BACKEND_URL}/uploads/invoices/invoice-${curPayment.id}.html`, "_blank")}
+                    >
+                      <FileText className="w-3.5 h-3.5 mr-1" /> View Invoice
+                    </Button>
                     <Button variant="outline" size="sm" onClick={() => setSelectedProofPayment(null)}>
                       Close
                     </Button>
