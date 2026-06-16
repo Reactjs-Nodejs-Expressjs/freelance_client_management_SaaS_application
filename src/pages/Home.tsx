@@ -812,9 +812,11 @@ export default function Home() {
                 Strategic Brand Solutions is a full-stack MERN agency providing high-fidelity brand consulting and custom client portal systems.
               </p>
               <div className="flex justify-center items-center gap-4 pt-2">
-                <Button onClick={() => setContactOpen(true)} size="lg" className="h-12 px-6 rounded-3xl bg-foreground text-background hover:bg-foreground/90 font-semibold flex items-center justify-center gap-2 group shadow-md cursor-pointer dark:bg-white dark:text-black">
-                  Get started for free <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </Button>
+                <Link href="/login">
+                  <Button size="lg" className="h-12 px-6 rounded-3xl bg-foreground text-background hover:bg-foreground/90 font-semibold flex items-center justify-center gap-2 group shadow-md cursor-pointer dark:bg-white dark:text-black">
+                     Login Portal <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </Link>
                 <button onClick={() => scrollTo("services")} className="text-xs font-semibold text-muted-foreground hover:text-foreground transition-all py-3 px-5 border border-border/60 hover:bg-muted/40 rounded-3xl font-mono cursor-pointer">
                   Explore Services
                 </button>
